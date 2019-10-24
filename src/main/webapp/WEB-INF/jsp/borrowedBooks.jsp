@@ -25,8 +25,7 @@
 <body>
 <div class="container">
     <br>
-    <h2 class="bg-info" style="background-color: darkgrey" align="center">Books currently borrowed by other
-        students</h2><br>
+    <h2 class="bg-info" style="background-color: darkgrey" align="center">Books currently borrowed</h2><br>
     <c:choose>
         <c:when test="${borrowedBooks.size() > 0}">
             <table class="table table-bordered table-striped">
