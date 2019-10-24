@@ -28,7 +28,7 @@
 <body>
 <div class="container">
 
-    <form:form method="post" modelAttribute="authorToAdd" class="form-signin" name="FrmAddAuthor">
+    <form:form method="post" modelAttribute="newAuthor" class="form-signin" name="FrmAddAuthor">
         <h4 class="form-signin-heading">Book Management Web Application</h4>
         <spring:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">

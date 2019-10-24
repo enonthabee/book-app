@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -20,12 +21,23 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    @GetMapping(value = "/add-author")
+    public String addBookView(ModelMap modelMap, final Author author) {
+        if (getLoggedInUser() != null && getLoggedInUser() != Constants.ANONYMOUS_USER) {
+            final Author newAuthor = new Author();
+            modelMap.addAttribute("newAuthor", newAuthor);
+            return "add-author";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
     @PostMapping(value = "/add-author")
     public String addBook(ModelMap modelMap, final Author author) {
         if (getLoggedInUser() != null && getLoggedInUser() != Constants.ANONYMOUS_USER) {
             final Author authorToAdd = authorService.addAuthor(author);
             modelMap.addAttribute("authorToAdd", authorToAdd);
-            return "add-author";
+            return "author-add-success";
         } else {
             return "redirect:/login";
         }

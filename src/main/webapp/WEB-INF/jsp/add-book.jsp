@@ -37,14 +37,14 @@
         <spring:bind path="isbn">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="isbn" class="form-control" placeholder="ISBN"
-                            autofocus="true"></form:input>
+                            autofocus="true" required=""></form:input>
                 <form:errors path="isbn" cssClass="text-danger"></form:errors>
             </div>
         </spring:bind>
 
         <spring:bind path="title">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="title" class="form-control" placeholder="Title"></form:input>
+                <form:input type="text" path="title" class="form-control" placeholder="Title" required=""></form:input>
                 <form:errors path="title" cssClass="text-danger"></form:errors>
             </div>
         </spring:bind>
@@ -52,8 +52,9 @@
         <spring:bind path="category">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select path="category">
+                    <form:option value="Select category"/>
                     <c:forEach items="${categories}" var="category">
-                        <form:option value="Select category"/>
+
                         <form:option value="${category}">${category}</form:option>
                     </c:forEach>
                 </form:select>
@@ -64,8 +65,8 @@
         <spring:bind path="author">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select path="author">
+                    <form:option value="Select author"/>
                     <c:forEach items="${authors}" var="author">
-                        <form:option value="Select author"/>
                         <form:option value="${author}">${author.name}  ${author.surname}</form:option>
                     </c:forEach>
                 </form:select>
@@ -76,7 +77,6 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
         <br>
 
-        <%--        Already have an account? Login <a href="/login">here</a>--%>
     </form:form>
 
 </div>

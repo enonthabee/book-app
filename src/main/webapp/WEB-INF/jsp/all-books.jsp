@@ -55,7 +55,7 @@
                 <td>
                     <c:choose>
                         <c:when test="${book.available}">
-                            <button class="btn btn-default"><a href="/borrow-book">Borrow</a></button>
+                            <button class="btn btn-default"><a href="<c:url value='/borrow-book/${book.isbn}'/>">Borrow</a></button>
                         </c:when>
                         <c:otherwise>
                             <button disabled class="btn btn-danger">Unavailable</button>

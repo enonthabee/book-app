@@ -94,7 +94,7 @@ public class BookController {
         if (getLoggedInUser() != null && getLoggedInUser() != Constants.ANONYMOUS_USER) {
             final Book bookToAdd = bookService.addBook(book);
             modelMap.addAttribute("bookToAdd", bookToAdd);
-            return "add-book";
+            return "redirect:/all-books";
         } else {
             return "redirect:/login";
         }
