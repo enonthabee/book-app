@@ -29,45 +29,48 @@
 <div class="container">
     <br>
     <h2 class="bg-info" style="background-color: darkgrey" align="center">All Registered Books</h2><br>
-    <table class="table table-bordered table-striped">
-        <thead class="tab table-hover">
-        <tr>
-            <th>ISBN</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
-            <th>Delete Book</th>
-            <th>Borrow Book</th>
-        </tr>
-        <c:forEach var="book" items="${allBooks}">
-        </thead>
-        <tbody>
-        <td>${book.isbn}</td>
-        <td>${book.title}</td>
-        <td>${book.author.name}</td>
-        <td>${book.category}</td>
-        <td>
-            <button href="/delete-book" class="btn btn-danger" >Delete</button>
-        </td>
+    <c:choose>
+        <c:when test="${allBooks.size() > 0}">
+            <table class="table table-bordered table-striped">
+                <thead class="tab table-hover">
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Delete Book</th>
+                    <th>Borrow Book</th>
+                </tr>
+                <c:forEach var="book" items="${allBooks}">
+                </thead>
+                <tbody>
+                <td>${book.isbn}</td>
+                <td>${book.title}</td>
+                <td>${book.author.name}</td>
+                <td>${book.category}</td>
+                <td>
+                    <button <c:if test="${book.available != true}">disabled</c:if> href="/delete-book" class="btn btn-danger" >Delete</button>
+                </td>
 
-        <td>
-            <c:choose>
-                <c:when test="${book.available}">
-                    <button class="btn btn-primary">Borrow</button>
-                </c:when>
-                <c:otherwise>
-                    <button disabled class="btn btn-danger">Unavailable</button>
-                </c:otherwise>
-            </c:choose>
-        </td>
-        </tbody>
+                <td>
+                    <c:choose>
+                        <c:when test="${book.available}">
+                            <button class="btn btn-default"><a href="/borrow-book">Borrow</a></button>
+                        </c:when>
+                        <c:otherwise>
+                            <button disabled class="btn btn-danger">Unavailable</button>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                </tbody>
 
-        </c:forEach>
-    </table>
-
-    <c:if test="${user.role == 'ADMIN'}">
-        <a href="/users" class="navbar-link">ALL USERS</a>
-    </c:if>
+                </c:forEach>
+            </table>
+        </c:when>
+        <c:otherwise>
+            <p style="color: red">There are no books</p>
+        </c:otherwise>
+    </c:choose>
 
 </div>
 

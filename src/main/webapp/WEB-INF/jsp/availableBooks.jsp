@@ -26,38 +26,42 @@
 <div class="container">
     <br>
     <h2 class="bg-info" style="background-color: darkgrey" align="center">Books Available to Borrow</h2><br>
-    <table class="table table-bordered table-striped">
-        <thead class="tab table-hover">
-        <tr>
-            <th>ISBN</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
-            <th>Delete Book</th>
-            <th>Borrow Book</th>
-        </tr>
-        <c:forEach var="availableBook" items="${availableBooks}">
-        </thead>
-        <tbody>
-        <td>${availableBook.isbn}</td>
-        <td>${availableBook.title}</td>
-        <td>${availableBook.author.name}</td>
-        <td>${availableBook.category}</td>
-        <td>
-            <button class="btn btn-danger">Delete</button>
-        </td>
-        <td>
-            <button class="btn btn-primary">Borrow</button>
-        </td>
-        </tbody>
+    <c:choose>
+        <c:when test="${availableBooks.size() > 0}">
+            <table class="table table-bordered table-striped">
+                <thead class="tab table-hover">
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Delete Book</th>
+                    <th>Borrow Book</th>
+                </tr>
+                <c:forEach var="availableBook" items="${availableBooks}">
+                </thead>
+                <tbody>
+                <td>${availableBook.isbn}</td>
+                <td>${availableBook.title}</td>
+                <td>${availableBook.author.name}</td>
+                <td>${availableBook.category}</td>
+                <td>
+                    <button class="btn btn-danger" name="isbn">
+                        <a href="<c:url value='/delete-book/${availableBook.isbn}'/>">Delete</a></button>
+                </td>
+                <td>
+                    <button class="btn btn-default" name="isbn"><a
+                            href="<c:url value='/borrow-book/${availableBook.isbn}'/>">Borrow</a></button>
+                </td>
+                </tbody>
 
-        </c:forEach>
-    </table>
-
-    <c:if test="${user.role == 'ADMIN'}">
-        <a href="/users" class="navbar-link">ALL USERS</a>
-    </c:if>
-
+                </c:forEach>
+            </table>
+        </c:when>
+        <c:otherwise>
+            <p style="color: red">There are no books available to borrow</p>
+        </c:otherwise>
+    </c:choose>
 </div>
 
 </body>

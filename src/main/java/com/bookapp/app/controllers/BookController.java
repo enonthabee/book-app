@@ -98,11 +98,10 @@ public class BookController {
         } else {
             return "redirect:/login";
         }
-
     }
 
-    @DeleteMapping
-    public String deleteBook(final ModelMap modelMap, final String isbn) throws Exception {
+    @GetMapping("/delete-book/{isbn}")
+    public String deleteBook(final ModelMap modelMap, @PathVariable final String isbn) throws Exception {
         if (getLoggedInUser() != null && getLoggedInUser() != Constants.ANONYMOUS_USER) {
             final Book bookToDelete = bookService.findBookByIsbn(isbn);
             modelMap.addAttribute("bookToDelete", bookToDelete);
@@ -115,14 +114,16 @@ public class BookController {
         }
     }
 
-    @PostMapping("/borrow-book")
-    public String borrowBook(final ModelMap modelMap, final String isbn) {
+    @GetMapping("/borrow-book/{isbn}")
+    public String borrowBook(final ModelMap modelMap, @PathVariable final String isbn) {
         if (getLoggedInUser() != null && getLoggedInUser() != Constants.ANONYMOUS_USER) {
             final boolean isAvailable = bookService.borrowBook(isbn);
             if (isAvailable) {
                 modelMap.addAttribute("bookByIsbn", bookService.findBookByIsbn(isbn));
+                return "borrow-book-success";
+            } else {
+                return "borrow-book-failure";
             }
-            return "borrow-book-success";
         } else {
             return "redirect:/login";
         }

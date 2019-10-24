@@ -32,10 +32,6 @@
 
     <h3 style="color: green">Book <strong>${bookToDelete.title}</strong> borrowed successfully</h3><br>
     <h4> Please note that this book is due to be returned on <strong>${bookByIsbn.returnDate}</strong></h4>
-    <a href="/all-books">See all books</a>
-    <a href="/available-books">See available books books</a>
-    <a href="/borrowed-books">See all borrowed books</a>
-    <a href="/profile">Go to home page</a>
 
 </div>
 

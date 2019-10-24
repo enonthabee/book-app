@@ -77,9 +77,9 @@ public class BookServiceImpl implements BookService {
             final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             final Date date = formatter.parse(formatter.format(new Date()));
             final LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            return localDate;
+            return localDate.plusMonths(1);
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Error parsing date: " + e.getMessage());
             return null;
         }
     }

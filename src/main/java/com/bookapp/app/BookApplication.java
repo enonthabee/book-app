@@ -72,13 +72,4 @@ public class BookApplication implements CommandLineRunner {
         authors.add(lindisizwe);
         return authors;
     }
-
-    private static List<Category> getCategories() {
-        final List<Category> categories = new ArrayList<>();
-        categories.add(new Category(Categories.KIDS.getDescription()));
-        categories.add(new Category(Categories.THRILLER.getDescription()));
-        categories.add(new Category(Categories.HORROR.getDescription()));
-        categories.add(new Category(Categories.SCIENCE_FICTION.getDescription()));
-        return categories;
-    }
 }
