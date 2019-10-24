@@ -1,12 +1,13 @@
 package com.bookapp.app.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.implementation.bind.annotation.Default;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +26,6 @@ public class User {
     private String cellNo;
     private String username;
     private String password;
+    /*@OneToMany(mappedBy = "user")
+    private Set<Book> borrowedBooks;*/
 }

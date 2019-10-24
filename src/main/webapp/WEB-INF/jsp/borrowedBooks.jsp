@@ -37,6 +37,7 @@
                     <th>Author</th>
                     <th>Category</th>
                     <th>Return Date</th>
+                    <th>Return Book</th>
                 </tr>
                 <c:forEach var="borrowedBook" items="${borrowedBooks}">
                 </thead>
@@ -46,6 +47,7 @@
                 <td>${borrowedBook.author.name}</td>
                 <td>${borrowedBook.category}</td>
                 <td>${borrowedBook.returnDate}</td>
+                <td><a href="<c:url value='/return-book/${borrowedBook.isbn}'/>">Return</a></td>
                 </tbody>
 
                 </c:forEach>

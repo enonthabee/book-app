@@ -3,6 +3,9 @@ package com.bookapp.app.services;
 import com.bookapp.app.models.Book;
 import com.bookapp.app.models.User;
 import com.bookapp.app.repositories.BookRepository;
+import com.bookapp.app.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -17,9 +20,11 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
+    private UserRepository userRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, UserRepository userRepository) {
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -66,8 +71,30 @@ public class BookServiceImpl implements BookService {
         if (bookByIsbn != null && bookByIsbn.isAvailable()) {
             bookByIsbn.setAvailable(false);
             bookByIsbn.setReturnDate(getReturnDate());
-            bookRepository.save(bookByIsbn);
-            return true;
+            final String username = getLoggedInUser();
+            final User byUsername = userRepository.findByUsername(username);
+            if (byUsername != null) {
+                bookByIsbn.setUser(byUsername);
+                bookRepository.save(bookByIsbn);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean returnBook(String isbn) {
+        final Book bookByIsbn = findBookByIsbn(isbn);
+        if (bookByIsbn != null && !bookByIsbn.isAvailable()) {
+            bookByIsbn.setAvailable(true);
+            bookByIsbn.setReturnDate(null);
+            final String username = getLoggedInUser();
+            final User byUsername = userRepository.findByUsername(username);
+            if (byUsername != null) {
+                bookByIsbn.setUser(null);
+                bookRepository.save(bookByIsbn);
+                return true;
+            }
         }
         return false;
     }
@@ -82,5 +109,10 @@ public class BookServiceImpl implements BookService {
             System.out.println("Error parsing date: " + e.getMessage());
             return null;
         }
+    }
+
+    private String getLoggedInUser() {
+        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (principal instanceof UserDetails) ? ((UserDetails) principal).getUsername() : principal.toString();
     }
 }

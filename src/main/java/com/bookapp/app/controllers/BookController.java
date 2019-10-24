@@ -10,15 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -127,6 +123,15 @@ public class BookController {
         } else {
             return "redirect:/login";
         }
+    }
+
+    @GetMapping("/return-book/{isbn}")
+    public String returnBook(@PathVariable final String isbn, final ModelMap modelMap) {
+        final boolean isReturned = bookService.returnBook(isbn);
+        if (isReturned) {
+            modelMap.addAttribute("returnedBook", bookService.findBookByIsbn(isbn));
+        }
+        return "return-book-success";
     }
 
     private String getLoggedInUser() {
