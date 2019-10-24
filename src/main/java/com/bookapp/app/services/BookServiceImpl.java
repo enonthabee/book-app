@@ -5,6 +5,11 @@ import com.bookapp.app.models.User;
 import com.bookapp.app.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +61,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean borrowBook(String isbn, boolean isAvailable) {
+    public boolean borrowBook(String isbn) {
+        final Book bookByIsbn = findBookByIsbn(isbn);
+        if (bookByIsbn != null && bookByIsbn.isAvailable()) {
+            bookByIsbn.setAvailable(false);
+            bookByIsbn.setReturnDate(getReturnDate());
+            bookRepository.save(bookByIsbn);
+            return true;
+        }
         return false;
+    }
+
+    private LocalDate getReturnDate() {
+        try {
+            final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            final Date date = formatter.parse(formatter.format(new Date()));
+            final LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            return localDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

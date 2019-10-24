@@ -12,6 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -108,10 +115,18 @@ public class BookController {
         }
     }
 
-    public String borrowBook(String isbn, boolean isAvailable) {
-        return null;
+    @PostMapping("/borrow-book")
+    public String borrowBook(final ModelMap modelMap, final String isbn) {
+        if (getLoggedInUser() != null && getLoggedInUser() != Constants.ANONYMOUS_USER) {
+            final boolean isAvailable = bookService.borrowBook(isbn);
+            if (isAvailable) {
+                modelMap.addAttribute("bookByIsbn", bookService.findBookByIsbn(isbn));
+            }
+            return "borrow-book-success";
+        } else {
+            return "redirect:/login";
+        }
     }
-
 
     private String getLoggedInUser() {
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

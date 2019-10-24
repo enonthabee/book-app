@@ -12,5 +12,5 @@ public interface BookService {
     List<Book> findAllAvailableBooks();
     List<Book> findAllBorrowedBooks();
     void deleteBook(String isbn) throws Exception;
-    boolean borrowBook(String isbn, boolean isAvailable);
+    boolean borrowBook(String isbn);
 }

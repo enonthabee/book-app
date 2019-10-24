@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Delete Book Success</title>
+    <title>Borrow Book Success</title>
 
     <link href="${contextPath}/webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
@@ -28,10 +28,10 @@
 <body>
 <div class="container">
     <br>
-    <h2 class="bg-info" style="background-color: darkgrey" align="center">Delete Book Successful</h2><br>
+    <h2 class="bg-info" style="background-color: darkgrey" align="center">Borrow Book Successful</h2><br>
 
-    <h3 style="color: green">Book <strong>${bookToDelete.title}</strong> deleted successfully</h3><br>
-
+    <h3 style="color: green">Book <strong>${bookToDelete.title}</strong> borrowed successfully</h3><br>
+    <h4> Please note that this book is due to be returned on <strong>${bookByIsbn.returnDate}</strong></h4>
     <a href="/all-books">See all books</a>
     <a href="/available-books">See available books books</a>
     <a href="/borrowed-books">See all borrowed books</a>
